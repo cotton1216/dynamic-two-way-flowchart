@@ -5,6 +5,14 @@ display_name_en: Animated Bidirectional Flowchart
 description_zh: "生成科技风动态 SVG 流程图，支持明暗主题、双向编号粒子、逻辑顺序播放与整轮循环，适用于架构流程、端到端调用链和数据流展示。"
 description_en: "Create tech-style animated SVG flowcharts with light/dark themes, numbered bidirectional particles, logical step playback, and whole-flow loops for architecture and data flows."
 version: 1.0.3
+examples_zh:
+  - "分析当前项目的网关架构，画一张带编号的双向动态流程图，让请求和响应粒子按逻辑依赖播放，并保留明暗主题切换。"
+  - "把客户端登录、网关鉴权、请求转发到上游服务及响应返回客户端的链路画成动态 SVG，让连线和移动粒子使用一致的步骤编号。"
+  - "将工具发现 tools/list 和工具调用 tools/call 分成独立场景演示，整轮播放后循环，并在正文和图内注明编号不等于严格时序图，不要把演示先后当成业务依赖。"
+examples_en:
+  - "Analyze the gateway architecture in this project and create a numbered bidirectional animated flowchart, with request and response particles following logical dependencies and a light/dark theme toggle."
+  - "Create an animated SVG showing client login, gateway authorization, forwarding requests to an upstream service, and responses returning to the client, with matching step numbers on connections and moving particles."
+  - "Show tool discovery with tools/list and tool invocation with tools/call as separate scenarios, loop the whole presentation, and state in both the text and diagram that numbering does not make this a strict sequence diagram; presentation order must not imply business dependencies."
 agent_created: true
 author: binny
 description: "生成科技风双向动态 SVG 流程图，默认使用连线与粒子编号、逻辑顺序播放和整轮循环，支持明暗主题。用于动态流程图、架构流程、端到端调用链、数据流展示；不用于纯静态图或严格时序图。"
