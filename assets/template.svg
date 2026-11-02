@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 720 540" role="img" aria-label="双向动态流程图模板">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 760 650" role="img" aria-label="双向动态流程图模板：编号顺序动画与明暗主题" aria-describedby="timingNote">
+  <desc id="timingNote">编号不等于严格时序图：编号与动画表示逻辑调用顺序，不代表真实耗时、精确时间比例或完整的并发时序。</desc>
   <style>
     text { font-family: "PingFang SC", "SF Pro Text", system-ui, sans-serif; }
     /* 深色主题（默认） */
@@ -13,7 +14,7 @@
       --c-teal: #2DD4BF;
       --c-ret: #4A5B73;
       --c-ret-glow: #5A6B88;
-      --c-ret-core: #7A8CA8;
+      --c-ret-core: #B0C0D8;
       --c-text: #E8EEF7;
       --c-sub: #8FA3BF;
       --c-accent: #5FE3D2;
@@ -51,7 +52,7 @@
       --c-teal: #2DD4BF;
       --c-ret: #4A5B73;
       --c-ret-glow: #5A6B88;
-      --c-ret-core: #7A8CA8;
+      --c-ret-core: #B0C0D8;
       --c-text: #E8EEF7;
       --c-sub: #8FA3BF;
       --c-accent: #5FE3D2;
@@ -86,9 +87,13 @@
     .labTeal { fill: var(--c-accent); font-size: 12px; font-weight: 500; }
     .labGreen { fill: var(--c-green); font-size: 12px; font-weight: 500; }
     .labMuted { fill: var(--c-ret-core); font-size: 12px; }
-    .flow { stroke-dasharray: 6 10; animation: dashFlow 0.7s linear infinite; }
-    .pulse { animation: pulse 1.8s ease-in-out infinite; }
-    .blink { animation: blink 1.6s ease-in-out infinite; }
+    .badge { fill: var(--c-bg); stroke: currentColor; stroke-width: 1.5; }
+    .stepNumber { fill: var(--c-text); font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+    .note { fill: var(--c-sub); font-size: 11px; }
+    @media (prefers-reduced-motion: no-preference) {
+      .pulse { animation: pulse 1.8s ease-in-out infinite; }
+      .blink { animation: blink 1.6s ease-in-out infinite; }
+    }
     .themeBtn { cursor: pointer; }
     .themeBtn:hover { opacity: 0.85; }
     @keyframes dashFlow { to { stroke-dashoffset: -32; } }
@@ -114,13 +119,13 @@
     </marker>
   </defs>
 
-  <rect x="0" y="0" width="720" height="540" fill="var(--c-bg)" />
-  <rect x="0" y="0" width="720" height="540" fill="url(#grid)" />
+  <rect x="0" y="0" width="760" height="650" fill="var(--c-bg)" />
+  <rect x="0" y="0" width="760" height="650" fill="url(#grid)" />
 
   <path d="M14 40 V14 H40" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
-  <path d="M680 40 V14 H706" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
-  <path d="M14 500 V526 H40" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
-  <path d="M680 500 V526 H706" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
+  <path d="M720 40 V14 H746" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
+  <path d="M14 610 V636 H40" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
+  <path d="M720 610 V636 H746" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
 
   <path class="flow" d="M90 80 L115 198" fill="none" stroke="var(--c-blue)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrBlue)" />
   <path class="flow" d="M190 212 L308 82" fill="none" stroke="var(--c-blue)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrBlue)" />
@@ -136,71 +141,73 @@
   <path d="M568 445 L482 330" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
   <path d="M320 330 H192" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
 
+  <!-- 唯一循环时钟；每步只播放一次，在下一轮 repeatEvent 时重新触发。 -->
+  <g visibility="hidden"><animate id="flowCycle" attributeName="opacity" from="0" to="0" begin="0s" dur="20s" repeatCount="indefinite" /></g>
   <g class="particles">
-    <g>
-      <animateMotion dur="1.4s" begin="0s" repeatCount="indefinite" path="M90 80 L115 198" />
-      <circle r="4" fill="var(--c-blue)" opacity="0.20" />
-      <circle r="2" fill="var(--c-blue)" />
+    <g data-step="1" visibility="hidden" style="color:var(--c-blue)">
+      <set attributeName="visibility" to="visible" begin="0s;flowCycle.repeatEvent" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="0s;flowCycle.repeatEvent" path="M90 80 L115 198" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">1</text>
     </g>
-    <g>
-      <animateMotion dur="1.5s" begin="0.14s" repeatCount="indefinite" path="M190 212 L308 82" />
-      <circle r="4" fill="var(--c-blue)" opacity="0.20" />
-      <circle r="2" fill="var(--c-blue)" />
+    <g data-step="2" visibility="hidden" style="color:var(--c-blue)">
+      <set attributeName="visibility" to="visible" begin="1.3s;flowCycle.repeatEvent+1.3s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="1.3s;flowCycle.repeatEvent+1.3s" path="M190 212 L308 82" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">2</text>
     </g>
-    <g>
-      <animateMotion dur="1.5s" begin="0.28s" repeatCount="indefinite" path="M192 62 L120 198" />
-      <circle r="3.5" fill="var(--c-ret-glow)" opacity="0.16" />
-      <circle r="1.8" fill="var(--c-ret-core)" />
+    <g data-step="3" visibility="hidden" style="color:var(--c-ret-core)">
+      <set attributeName="visibility" to="visible" begin="2.6s;flowCycle.repeatEvent+2.6s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="2.6s;flowCycle.repeatEvent+2.6s" path="M192 62 L120 198" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">3</text>
     </g>
-    <g>
-      <animateMotion dur="1.3s" begin="0.42s" repeatCount="indefinite" path="M190 235 H320" />
-      <circle r="4" fill="var(--c-teal)" opacity="0.20" />
-      <circle r="2" fill="var(--c-teal)" />
+    <g data-step="4" visibility="hidden" style="color:var(--c-teal)">
+      <set attributeName="visibility" to="visible" begin="4.5s;flowCycle.repeatEvent+4.5s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="4.5s;flowCycle.repeatEvent+4.5s" path="M190 235 H320" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">4</text>
     </g>
-    <g>
-      <animateMotion dur="1.5s" begin="0.56s" repeatCount="indefinite" path="M480 215 L568 85" />
-      <circle r="4" fill="var(--c-teal)" opacity="0.20" />
-      <circle r="2" fill="var(--c-teal)" />
+    <g data-step="5" visibility="hidden" style="color:var(--c-teal)">
+      <set attributeName="visibility" to="visible" begin="5.8s;flowCycle.repeatEvent+5.8s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="5.8s;flowCycle.repeatEvent+5.8s" path="M480 215 L568 85" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">5</text>
     </g>
-    <g>
-      <animateMotion dur="1.5s" begin="0.7s" repeatCount="indefinite" path="M568 110 L482 245" />
-      <circle r="3.5" fill="var(--c-ret-glow)" opacity="0.16" />
-      <circle r="1.8" fill="var(--c-ret-core)" />
+    <g data-step="6" visibility="hidden" style="color:var(--c-ret-core)">
+      <set attributeName="visibility" to="visible" begin="7.1s;flowCycle.repeatEvent+7.1s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="7.1s;flowCycle.repeatEvent+7.1s" path="M568 110 L482 245" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">6</text>
     </g>
-    <g>
-      <animateMotion dur="1.3s" begin="0.84s" repeatCount="indefinite" path="M320 245 H192" />
-      <circle r="3.5" fill="var(--c-ret-glow)" opacity="0.16" />
-      <circle r="1.8" fill="var(--c-ret-core)" />
+    <g data-step="7" visibility="hidden" style="color:var(--c-ret-core)">
+      <set attributeName="visibility" to="visible" begin="8.4s;flowCycle.repeatEvent+8.4s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="8.4s;flowCycle.repeatEvent+8.4s" path="M320 245 H192" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">7</text>
     </g>
-    <g>
-      <animateMotion dur="1.3s" begin="0.98s" repeatCount="indefinite" path="M190 295 H320" />
-      <circle r="4" fill="var(--c-green)" opacity="0.20" />
-      <circle r="2" fill="var(--c-green)" />
+    <g data-step="8" visibility="hidden" style="color:var(--c-green)">
+      <set attributeName="visibility" to="visible" begin="10.3s;flowCycle.repeatEvent+10.3s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="10.3s;flowCycle.repeatEvent+10.3s" path="M190 295 H320" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">8</text>
     </g>
-    <g>
-      <animateMotion dur="1.5s" begin="1.12s" repeatCount="indefinite" path="M480 285 L568 135" />
-      <circle r="4" fill="var(--c-green)" opacity="0.20" />
-      <circle r="2" fill="var(--c-green)" />
+    <g data-step="9" visibility="hidden" style="color:var(--c-green)">
+      <set attributeName="visibility" to="visible" begin="11.6s;flowCycle.repeatEvent+11.6s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="11.6s;flowCycle.repeatEvent+11.6s" path="M480 285 L568 135" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">9</text>
     </g>
-    <g>
-      <animateMotion dur="1.5s" begin="1.26s" repeatCount="indefinite" path="M568 160 L482 305" />
-      <circle r="3.5" fill="var(--c-ret-glow)" opacity="0.16" />
-      <circle r="1.8" fill="var(--c-ret-core)" />
+    <g data-step="10" visibility="hidden" style="color:var(--c-ret-core)">
+      <set attributeName="visibility" to="visible" begin="12.9s;flowCycle.repeatEvent+12.9s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="12.9s;flowCycle.repeatEvent+12.9s" path="M568 160 L482 305" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">10</text>
     </g>
-    <g>
-      <animateMotion dur="1.3s" begin="1.4s" repeatCount="indefinite" path="M480 315 L568 415" />
-      <circle r="4" fill="var(--c-green)" opacity="0.20" />
-      <circle r="2" fill="var(--c-green)" />
+    <g data-step="11" visibility="hidden" style="color:var(--c-green)">
+      <set attributeName="visibility" to="visible" begin="14.2s;flowCycle.repeatEvent+14.2s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="14.2s;flowCycle.repeatEvent+14.2s" path="M480 315 L568 415" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">11</text>
     </g>
-    <g>
-      <animateMotion dur="1.4s" begin="1.54s" repeatCount="indefinite" path="M568 445 L482 330" />
-      <circle r="3.5" fill="var(--c-ret-glow)" opacity="0.16" />
-      <circle r="1.8" fill="var(--c-ret-core)" />
+    <g data-step="12" visibility="hidden" style="color:var(--c-ret-core)">
+      <set attributeName="visibility" to="visible" begin="15.5s;flowCycle.repeatEvent+15.5s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="15.5s;flowCycle.repeatEvent+15.5s" path="M568 445 L482 330" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">12</text>
     </g>
-    <g>
-      <animateMotion dur="1.3s" begin="1.68s" repeatCount="indefinite" path="M320 330 H192" />
-      <circle r="3.5" fill="var(--c-ret-glow)" opacity="0.16" />
-      <circle r="1.8" fill="var(--c-ret-core)" />
+    <g data-step="13" visibility="hidden" style="color:var(--c-ret-core)">
+      <set attributeName="visibility" to="visible" begin="16.8s;flowCycle.repeatEvent+16.8s" dur="1.2s" />
+      <animateMotion dur="1.2s" begin="16.8s;flowCycle.repeatEvent+16.8s" path="M320 330 H192" />
+      <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">13</text>
     </g>
   </g>
 
@@ -216,7 +223,7 @@
     <text class="nodeSub" x="250" y="76" text-anchor="middle">副标</text>
   </g>
   <g>
-    <rect x="40" y="200" width="150" height="120" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
+    <rect x="40" y="200" width="150" height="160" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
     <circle class="blink" cx="182" cy="260" r="3" fill="var(--c-green)" />
     <text class="nodeText" x="115" y="242" text-anchor="middle">节点 C</text>
     <text class="nodeSub" x="115" y="261" text-anchor="middle">副标</text>
@@ -248,13 +255,18 @@
   <text class="labTeal" x="255" y="228" text-anchor="middle">去程 4</text>
   <text class="labTeal" x="525" y="142" text-anchor="middle">去程 5</text>
   <text class="labMuted" x="525" y="183" text-anchor="middle">返回 6</text>
-  <text class="labMuted" x="255" y="238" text-anchor="middle">返回 7</text>
+  <text class="labMuted" x="255" y="265" text-anchor="middle">返回 7</text>
   <text class="labGreen" x="255" y="288" text-anchor="middle">去程 8</text>
   <text class="labGreen" x="525" y="205" text-anchor="middle">去程 9</text>
   <text class="labMuted" x="525" y="240" text-anchor="middle">返回 10</text>
   <text class="labGreen" x="525" y="372" text-anchor="middle">去程 11</text>
   <text class="labMuted" x="525" y="395" text-anchor="middle">返回 12</text>
   <text class="labMuted" x="255" y="323" text-anchor="middle">返回 13</text>
+
+  <text class="note" x="40" y="500">认证 1–3；场景 A：发现 4–7；场景 B：调用 8–13（假定鉴权允许）。</text>
+  <text class="note" x="40" y="520">两个场景分段演示，不表示发现必然先于调用；每步 1.2s，整轮 20s。</text>
+  <text class="note" x="40" y="560">编号不等于严格时序图：编号与动画表示逻辑调用顺序，</text>
+  <text class="note" x="40" y="580">不代表真实耗时、精确时间比例或完整的并发时序。</text>
 
   <!-- 明暗主题切换按钮（浏览器直接打开 SVG 时可用；作为 <img> 引用时 JS 不执行，但仍跟随系统） -->
   <mask id="moonMask">
