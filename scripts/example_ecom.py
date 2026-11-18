@@ -12,40 +12,53 @@
 import sys
 
 # ---------------------------------------------------------------- 样式常量
-BG = "#0B1220"
-GRID = "rgba(96,165,250,0.12)"
-NODE_FILL = "#101A2E"
-NODE_EDGE = "#3A4A63"
-CORE_FILL = "#0E2B1F"
-CORE_EDGE = "#3EF08C"
-TXT = "#E8EEF7"
-SUB = "#8FA3BF"
-ACCENT = "#5FE3D2"
-LBL_MUTED = "#7A8CA8"
-HUD = "#2C3E58"
+# 深色科技感基准配色：近黑铺底，电光蓝主色，青/紫点缀。
+BG = "#010207"
+PANEL = "#0B0F1E"
+DEEP = "#0D184C"
+PRIMARY = "#3154B5"
+HIGHLIGHT = "#819DE1"
+TEAL = "#4E8F94"
+PURPLE = "#9274D8"
+GRID = "rgba(129,157,225,0.10)"
+NODE_EDGE = "#2A3556"
+TXT = "#D3D6E1"
+SUB = "#8A93A8"
+LBL_MUTED = "#A9B3C9"
+HUD = "#24304F"
 
 PHASE = {
-    "auth":   {"stroke": "#4F8EF7", "label": "#7FB0FF", "marker": "arrBlue"},
-    "disc":   {"stroke": "#2DD4BF", "label": "#5FE3D2", "marker": "arrTeal"},
-    "invoke": {"stroke": "#3EF08C", "label": "#3EF08C", "marker": "arrGreen"},
+    "auth":   {"stroke": PURPLE,    "label": "#B7A0EA", "marker": "arrAuth"},
+    "disc":   {"stroke": TEAL,      "label": "#7FB3B8", "marker": "arrDisc"},
+    "invoke": {"stroke": HIGHLIGHT, "label": "#A8BEF0", "marker": "arrInvoke"},
 }
-RET = {"stroke": "#5A6B88", "marker": "arrRet"}
+RET = {"stroke": "#5C6784", "marker": "arrRet"}
 # 返回粒子/标签在深色底上需可见 —— 用亮一档的灰蓝
-RET_PARTICLE = "#B0C0D8"
-RET_HALO = "#5A6B88"
-RET_LABEL = "#A3B4CC"
+RET_PARTICLE = "#9AA5BF"
+RET_HALO = "#5C6784"
+RET_LABEL = "#A9B3C9"
+
+
+def mix(c1, c2, t):
+    """按比例 t 把 c2 混入 c1，用于生成低亮节点填充。"""
+    a = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(c2[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#%02X%02X%02X" % tuple(
+        int(round(x + (y - x) * t)) for x, y in zip(a, b))
+
 
 # ---------------------------------------------------------------- 节点
-# id: (标签, 副标, x, y, w, h, is_core)
+# id: (标签, 副标, x, y, w, h, is_core, 组件强调色)
+# 八个组件各用一种强调色，边框与状态灯取强调色，填充为强调色与底色低比例混合。
 NODES = {
-    "client":  ("客户端",   "App / Web",      25,  255, 110, 70,  False),
-    "gateway": ("API 网关", "鉴权·限流·路由", 185, 220, 145, 140, True),
-    "auth":    ("认证服务", "SSO / Token",    195,  65, 140, 70,  False),
-    "goods":   ("商品服务", "商品·库存",      470,  95, 140, 80,  False),
-    "order":   ("订单服务", "订单创建",       470, 255, 140, 95,  False),
-    "pay":     ("支付服务", "支付回调",       470, 430, 140, 80,  False),
-    "mq":      ("消息队列", "MQ 异步",        190, 430, 160, 75,  False),
-    "db":      ("数据库",   "MySQL / Redis",  25,  430, 125, 75,  False),
+    "client":  ("客户端",   "App / Web",      25,  255, 110, 70,  False, HIGHLIGHT),
+    "gateway": ("API 网关", "鉴权·限流·路由", 185, 220, 145, 140, True,  PRIMARY),
+    "auth":    ("认证服务", "SSO / Token",    195,  65, 140, 70,  False, PURPLE),
+    "goods":   ("商品服务", "商品·库存",      470,  95, 140, 80,  False, "#55B89A"),
+    "order":   ("订单服务", "订单创建",       470, 255, 140, 95,  False, "#D6AC62"),
+    "pay":     ("支付服务", "支付回调",       470, 430, 140, 80,  False, "#CC7FA3"),
+    "mq":      ("消息队列", "MQ 异步",        190, 430, 160, 75,  False, "#D88D63"),
+    "db":      ("数据库",   "MySQL / Redis",  25,  430, 125, 75,  False, TEAL),
 }
 
 # ---------------------------------------------------------------- 连线
@@ -147,7 +160,7 @@ def verify(verbose=True):
     for (f, t, phase, pts, label, lp, anchor) in EDGES:
         for i in range(len(pts) - 1):
             p, q = pts[i], pts[i + 1]
-            for nid, (nl, ns, x, y, w, h, core) in NODES.items():
+            for nid, (nl, ns, x, y, w, h, core, ac) in NODES.items():
                 if nid in (f, t):
                     # 端点所属节点：只检查起点/终点那一段
                     if i == 0 and nid == f:
@@ -160,7 +173,7 @@ def verify(verbose=True):
     # 2) 标签不与节点相交
     for (f, t, phase, pts, label, lp, anchor) in EDGES:
         bb = text_bbox(lp[0], lp[1], label, 10, anchor)
-        for nid, (nl, ns, x, y, w, h, core) in NODES.items():
+        for nid, (nl, ns, x, y, w, h, core, ac) in NODES.items():
             if rects_overlap(bb, (x, y, w, h), pad=3):
                 problems.append(f"标签「{label}」与节点 {nl}({nid}) 相交")
 
@@ -201,7 +214,7 @@ def verify(verbose=True):
 def build_svg():
     # 内容包围盒
     xs, ys = [], []
-    for nl, ns, x, y, w, h, core in NODES.values():
+    for nl, ns, x, y, w, h, core, ac in NODES.values():
         xs += [x, x + w]
         ys += [y, y + h]
     for (f, t, ph, pts, lb, lp, an) in EDGES:
@@ -219,14 +232,14 @@ def build_svg():
     L.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="{vx} {vy} {vw:.0f} {vh:.0f}" role="img" aria-label="电商架构双向动态流程图">')
     L.append('''  <style>
     text { font-family: "PingFang SC", "SF Pro Text", system-ui, sans-serif; }
-    .nodeText { fill: #E8EEF7; font-size: 14px; font-weight: 500; }
-    .nodeSub { fill: #8FA3BF; font-size: 11px; }
-    .labBlue { fill: #7FB0FF; font-size: 12px; font-weight: 500; }
-    .labTeal { fill: #5FE3D2; font-size: 12px; font-weight: 500; }
-    .labGreen { fill: #3EF08C; font-size: 12px; font-weight: 500; }
-    .labMuted { fill: #A3B4CC; font-size: 12px; font-weight: 500; }
-    .labBlue, .labTeal, .labGreen, .labMuted { font-size: 10px; }
-    .stepNumber { fill: #E8EEF7; font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+    .nodeText { fill: #D3D6E1; font-size: 14px; font-weight: 500; }
+    .nodeSub { fill: #8A93A8; font-size: 11px; }
+    .labAuth { fill: #B7A0EA; font-size: 12px; font-weight: 500; }
+    .labDisc { fill: #7FB3B8; font-size: 12px; font-weight: 500; }
+    .labInvoke { fill: #A8BEF0; font-size: 12px; font-weight: 500; }
+    .labMuted { fill: #A9B3C9; font-size: 12px; font-weight: 500; }
+    .labAuth, .labDisc, .labInvoke, .labMuted { font-size: 10px; }
+    .stepNumber { fill: #D3D6E1; font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
     @media (prefers-reduced-motion: no-preference) {
       .pulse { animation: pulse 1.8s ease-in-out infinite; }
       .blink { animation: blink 1.6s ease-in-out infinite; }
@@ -236,12 +249,12 @@ def build_svg():
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     @media (prefers-reduced-motion: reduce) { .particles { opacity: 0; } }
   </style>''')
-    L.append('''  <defs>
+    L.append(f'''  <defs>
     <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
-      <circle cx="13" cy="13" r="1.0" fill="rgba(96,165,250,0.12)" />
+      <circle cx="13" cy="13" r="1.0" fill="{GRID}" />
     </pattern>''')
-    for mid, col in (("arrBlue", "#4F8EF7"), ("arrTeal", "#2DD4BF"),
-                     ("arrGreen", "#3EF08C"), ("arrRet", "#5A6B88")):
+    for mid, col in (("arrAuth", PURPLE), ("arrDisc", TEAL),
+                     ("arrInvoke", HIGHLIGHT), ("arrRet", RET["stroke"])):
         L.append(f'''    <marker id="{mid}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
       <path d="M1 1 L7 4 L1 7 Z" fill="{col}" />
     </marker>''')
@@ -288,14 +301,13 @@ def build_svg():
     L.append("  </g>")
 
     # --- 节点层
-    for nid, (nl, ns, x, y, w, h, core) in NODES.items():
+    for nid, (nl, ns, x, y, w, h, core, ac) in NODES.items():
         cls = ' class="pulse"' if core else ""
-        fill = CORE_FILL if core else NODE_FILL
-        stroke = CORE_EDGE if core else NODE_EDGE
+        fill = mix(BG, ac, 0.22 if core else 0.14)
         sw = "1.4" if core else "1.2"
         L.append(f'  <g{cls}>')
-        L.append(f'    <rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="{sw}" />')
-        L.append(f'    <circle class="blink" cx="{x+w-8}" cy="{y+11}" r="3" fill="#3EF08C" />')
+        L.append(f'    <rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{fill}" stroke="{ac}" stroke-width="{sw}" />')
+        L.append(f'    <circle class="blink" cx="{x+w-8}" cy="{y+11}" r="3" fill="{ac}" />')
         L.append(f'    <text class="nodeText" x="{x+w/2}" y="{y+26 if ns else y+38}" text-anchor="middle">{nl}</text>')
         if ns:
             L.append(f'    <text class="nodeSub" x="{x+w/2}" y="{y+44}" text-anchor="middle">{ns}</text>')
@@ -306,7 +318,7 @@ def build_svg():
         if phase is None:
             cls = "labMuted"
         else:
-            cls = {"auth": "labBlue", "disc": "labTeal", "invoke": "labGreen"}[phase]
+            cls = {"auth": "labAuth", "disc": "labDisc", "invoke": "labInvoke"}[phase]
         L.append(f'  <text class="{cls}" x="{lp[0]}" y="{lp[1]}" text-anchor="{an}">{label}</text>')
 
     for offset, note in enumerate((

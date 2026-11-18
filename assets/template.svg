@@ -4,22 +4,30 @@
     text { font-family: "PingFang SC", "SF Pro Text", system-ui, sans-serif; }
     /* 深色主题（默认） */
     :root {
-      --c-bg: #0B1220;
-      --c-grid: rgba(96,165,250,0.12);
-      --c-node: #101A2E;
-      --c-node-line: #3A4A63;
-      --c-core: #0E2B1F;
-      --c-green: #3EF08C;
-      --c-blue: #4F8EF7;
-      --c-teal: #2DD4BF;
-      --c-ret: #4A5B73;
-      --c-ret-glow: #5A6B88;
-      --c-ret-core: #B0C0D8;
-      --c-text: #E8EEF7;
-      --c-sub: #8FA3BF;
-      --c-accent: #5FE3D2;
-      --c-lab-blue: #7FB0FF;
-      --c-hud: #2C3E58;
+      --c-bg: #010207;
+      --c-grid: rgba(129,157,225,0.10);
+      --c-node: #0B0F1E;
+      --c-node-line: #2A3556;
+      --c-core: #12224F;
+      --c-phase-1: #9274D8;
+      --c-phase-2: #4E8F94;
+      --c-phase-3: #819DE1;
+      --c-ret: #5C6784;
+      --c-ret-glow: #6C7796;
+      --c-ret-core: #A9B3C9;
+      --c-text: #D3D6E1;
+      --c-sub: #8A93A8;
+      --c-accent: #7FB3B8;
+      --c-auth: #B7A0EA;
+      --c-disc: #7FB3B8;
+      --c-invoke: #A8BEF0;
+      --c-hud: #24304F;
+      --c-node-a: #819DE1;
+      --c-node-b: #9274D8;
+      --c-node-c: #55B89A;
+      --c-node-d: #D6AC62;
+      --c-node-e: #CC7FA3;
+      --c-core-line: #3154B5;
     }
     /* 浅色主题（手动） */
     :root[data-theme="light"] {
@@ -28,36 +36,52 @@
       --c-node: #FFFFFF;
       --c-node-line: #CBD5E1;
       --c-core: #E7F6EE;
-      --c-green: #10B981;
-      --c-blue: #3B82F6;
-      --c-teal: #0D9488;
+      --c-phase-1: #7C3AED;
+      --c-phase-2: #0D9488;
+      --c-phase-3: #2563EB;
       --c-ret: #94A3B8;
       --c-ret-glow: #94A3B8;
       --c-ret-core: #64748B;
       --c-text: #1E293B;
       --c-sub: #64748B;
-      --c-accent: #0D9488;
-      --c-lab-blue: #2563EB;
+      --c-accent: #0F766E;
+      --c-auth: #6D28D9;
+      --c-disc: #0F766E;
+      --c-invoke: #2563EB;
       --c-hud: #CBD5E1;
+      --c-node-a: #2563EB;
+      --c-node-b: #7C3AED;
+      --c-node-c: #0D9488;
+      --c-node-d: #D97706;
+      --c-node-e: #DB2777;
+      --c-core-line: #3B82F6;
     }
     /* 深色主题（手动覆盖系统） */
     :root[data-theme="dark"] {
-      --c-bg: #0B1220;
-      --c-grid: rgba(96,165,250,0.12);
-      --c-node: #101A2E;
-      --c-node-line: #3A4A63;
-      --c-core: #0E2B1F;
-      --c-green: #3EF08C;
-      --c-blue: #4F8EF7;
-      --c-teal: #2DD4BF;
-      --c-ret: #4A5B73;
-      --c-ret-glow: #5A6B88;
-      --c-ret-core: #B0C0D8;
-      --c-text: #E8EEF7;
-      --c-sub: #8FA3BF;
-      --c-accent: #5FE3D2;
-      --c-lab-blue: #7FB0FF;
-      --c-hud: #2C3E58;
+      --c-bg: #010207;
+      --c-grid: rgba(129,157,225,0.10);
+      --c-node: #0B0F1E;
+      --c-node-line: #2A3556;
+      --c-core: #12224F;
+      --c-phase-1: #9274D8;
+      --c-phase-2: #4E8F94;
+      --c-phase-3: #819DE1;
+      --c-ret: #5C6784;
+      --c-ret-glow: #6C7796;
+      --c-ret-core: #A9B3C9;
+      --c-text: #D3D6E1;
+      --c-sub: #8A93A8;
+      --c-accent: #7FB3B8;
+      --c-auth: #B7A0EA;
+      --c-disc: #7FB3B8;
+      --c-invoke: #A8BEF0;
+      --c-hud: #24304F;
+      --c-node-a: #819DE1;
+      --c-node-b: #9274D8;
+      --c-node-c: #55B89A;
+      --c-node-d: #D6AC62;
+      --c-node-e: #CC7FA3;
+      --c-core-line: #3154B5;
     }
     /* 跟随系统：系统为浅色且未手动指定时用浅色 */
     @media (prefers-color-scheme: light) {
@@ -67,25 +91,33 @@
         --c-node: #FFFFFF;
         --c-node-line: #CBD5E1;
         --c-core: #E7F6EE;
-        --c-green: #10B981;
-        --c-blue: #3B82F6;
-        --c-teal: #0D9488;
+        --c-phase-1: #7C3AED;
+        --c-phase-2: #0D9488;
+        --c-phase-3: #2563EB;
         --c-ret: #94A3B8;
         --c-ret-glow: #94A3B8;
         --c-ret-core: #64748B;
         --c-text: #1E293B;
         --c-sub: #64748B;
-        --c-accent: #0D9488;
-        --c-lab-blue: #2563EB;
+        --c-accent: #0F766E;
+        --c-auth: #6D28D9;
+        --c-disc: #0F766E;
+        --c-invoke: #2563EB;
         --c-hud: #CBD5E1;
+        --c-node-a: #2563EB;
+        --c-node-b: #7C3AED;
+        --c-node-c: #0D9488;
+        --c-node-d: #D97706;
+        --c-node-e: #DB2777;
+        --c-core-line: #3B82F6;
       }
     }
     .nodeText { fill: var(--c-text); font-size: 14px; font-weight: 500; }
     .nodeSub { fill: var(--c-sub); font-size: 12px; }
     .nodeAccent { fill: var(--c-accent); font-size: 12px; font-weight: 500; }
-    .labBlue { fill: var(--c-lab-blue); font-size: 12px; font-weight: 500; }
-    .labTeal { fill: var(--c-accent); font-size: 12px; font-weight: 500; }
-    .labGreen { fill: var(--c-green); font-size: 12px; font-weight: 500; }
+    .labAuth { fill: var(--c-auth); font-size: 12px; font-weight: 500; }
+    .labDisc { fill: var(--c-disc); font-size: 12px; font-weight: 500; }
+    .labInvoke { fill: var(--c-invoke); font-size: 12px; font-weight: 500; }
     .labMuted { fill: var(--c-ret-core); font-size: 12px; }
     .badge { fill: var(--c-bg); stroke: currentColor; stroke-width: 1.5; }
     .stepNumber { fill: var(--c-text); font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
@@ -105,14 +137,14 @@
     <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
       <circle cx="13" cy="13" r="1.0" fill="var(--c-grid)" />
     </pattern>
-    <marker id="arrBlue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
-      <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-blue)" />
+    <marker id="arrAuth" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-phase-1)" />
     </marker>
-    <marker id="arrTeal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
-      <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-teal)" />
+    <marker id="arrDisc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-phase-2)" />
     </marker>
-    <marker id="arrGreen" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
-      <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-green)" />
+    <marker id="arrInvoke" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-phase-3)" />
     </marker>
     <marker id="arrRet" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
       <path d="M1 1 L7 4 L1 7 Z" fill="var(--c-ret-glow)" />
@@ -127,29 +159,29 @@
   <path d="M14 610 V636 H40" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
   <path d="M720 610 V636 H746" fill="none" stroke="var(--c-hud)" stroke-width="1.2" stroke-linecap="round" />
 
-  <path class="flow" d="M90 80 L115 198" fill="none" stroke="var(--c-blue)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrBlue)" />
-  <path class="flow" d="M190 212 L308 82" fill="none" stroke="var(--c-blue)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrBlue)" />
+  <path class="flow" d="M90 80 L115 198" fill="none" stroke="var(--c-phase-1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrAuth)" />
+  <path class="flow" d="M190 212 L308 82" fill="none" stroke="var(--c-phase-1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrAuth)" />
   <path d="M192 62 L120 198" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
-  <path class="flow" d="M190 235 H320" fill="none" stroke="var(--c-teal)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrTeal)" />
-  <path class="flow" d="M480 215 L568 85" fill="none" stroke="var(--c-teal)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrTeal)" />
+  <path class="flow" d="M190 235 H320" fill="none" stroke="var(--c-phase-2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrDisc)" />
+  <path class="flow" d="M480 215 L568 85" fill="none" stroke="var(--c-phase-2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrDisc)" />
   <path d="M568 110 L482 245" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
   <path d="M320 245 H192" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
-  <path class="flow" d="M190 295 H320" fill="none" stroke="var(--c-green)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrGreen)" />
-  <path class="flow" d="M480 285 L568 135" fill="none" stroke="var(--c-green)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrGreen)" />
+  <path class="flow" d="M190 295 H320" fill="none" stroke="var(--c-phase-3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrInvoke)" />
+  <path class="flow" d="M480 285 L568 135" fill="none" stroke="var(--c-phase-3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrInvoke)" />
   <path d="M568 160 L482 305" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
-  <path class="flow" d="M480 315 L568 415" fill="none" stroke="var(--c-green)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrGreen)" />
+  <path class="flow" d="M480 315 L568 415" fill="none" stroke="var(--c-phase-3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrInvoke)" />
   <path d="M568 445 L482 330" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
   <path d="M320 330 H192" fill="none" stroke="var(--c-ret)" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrRet)" />
 
   <!-- 唯一循环时钟；每步只播放一次，在下一轮 repeatEvent 时重新触发。 -->
   <g visibility="hidden"><animate id="flowCycle" attributeName="opacity" from="0" to="0" begin="0s" dur="20s" repeatCount="indefinite" /></g>
   <g class="particles">
-    <g data-step="1" visibility="hidden" style="color:var(--c-blue)">
+    <g data-step="1" visibility="hidden" style="color:var(--c-phase-1)">
       <set attributeName="visibility" to="visible" begin="0s;flowCycle.repeatEvent" dur="1.2s" />
       <animateMotion dur="1.2s" begin="0s;flowCycle.repeatEvent" path="M90 80 L115 198" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">1</text>
     </g>
-    <g data-step="2" visibility="hidden" style="color:var(--c-blue)">
+    <g data-step="2" visibility="hidden" style="color:var(--c-phase-1)">
       <set attributeName="visibility" to="visible" begin="1.3s;flowCycle.repeatEvent+1.3s" dur="1.2s" />
       <animateMotion dur="1.2s" begin="1.3s;flowCycle.repeatEvent+1.3s" path="M190 212 L308 82" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">2</text>
@@ -159,12 +191,12 @@
       <animateMotion dur="1.2s" begin="2.6s;flowCycle.repeatEvent+2.6s" path="M192 62 L120 198" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">3</text>
     </g>
-    <g data-step="4" visibility="hidden" style="color:var(--c-teal)">
+    <g data-step="4" visibility="hidden" style="color:var(--c-phase-2)">
       <set attributeName="visibility" to="visible" begin="4.5s;flowCycle.repeatEvent+4.5s" dur="1.2s" />
       <animateMotion dur="1.2s" begin="4.5s;flowCycle.repeatEvent+4.5s" path="M190 235 H320" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">4</text>
     </g>
-    <g data-step="5" visibility="hidden" style="color:var(--c-teal)">
+    <g data-step="5" visibility="hidden" style="color:var(--c-phase-2)">
       <set attributeName="visibility" to="visible" begin="5.8s;flowCycle.repeatEvent+5.8s" dur="1.2s" />
       <animateMotion dur="1.2s" begin="5.8s;flowCycle.repeatEvent+5.8s" path="M480 215 L568 85" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">5</text>
@@ -179,12 +211,12 @@
       <animateMotion dur="1.2s" begin="8.4s;flowCycle.repeatEvent+8.4s" path="M320 245 H192" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">7</text>
     </g>
-    <g data-step="8" visibility="hidden" style="color:var(--c-green)">
+    <g data-step="8" visibility="hidden" style="color:var(--c-phase-3)">
       <set attributeName="visibility" to="visible" begin="10.3s;flowCycle.repeatEvent+10.3s" dur="1.2s" />
       <animateMotion dur="1.2s" begin="10.3s;flowCycle.repeatEvent+10.3s" path="M190 295 H320" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">8</text>
     </g>
-    <g data-step="9" visibility="hidden" style="color:var(--c-green)">
+    <g data-step="9" visibility="hidden" style="color:var(--c-phase-3)">
       <set attributeName="visibility" to="visible" begin="11.6s;flowCycle.repeatEvent+11.6s" dur="1.2s" />
       <animateMotion dur="1.2s" begin="11.6s;flowCycle.repeatEvent+11.6s" path="M480 285 L568 135" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">9</text>
@@ -194,7 +226,7 @@
       <animateMotion dur="1.2s" begin="12.9s;flowCycle.repeatEvent+12.9s" path="M568 160 L482 305" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">10</text>
     </g>
-    <g data-step="11" visibility="hidden" style="color:var(--c-green)">
+    <g data-step="11" visibility="hidden" style="color:var(--c-phase-3)">
       <set attributeName="visibility" to="visible" begin="14.2s;flowCycle.repeatEvent+14.2s" dur="1.2s" />
       <animateMotion dur="1.2s" begin="14.2s;flowCycle.repeatEvent+14.2s" path="M480 315 L568 415" />
       <circle r="14" fill="currentColor" opacity=".35" /><circle class="badge" r="10" /><text class="stepNumber">11</text>
@@ -212,54 +244,54 @@
   </g>
 
   <g>
-    <rect x="40" y="40" width="100" height="40" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
-    <circle class="blink" cx="132" cy="60" r="3" fill="var(--c-green)" />
+    <rect x="40" y="40" width="100" height="40" rx="6" fill="var(--c-node)" stroke="var(--c-node-a)" stroke-width="1.2" />
+    <circle class="blink" cx="132" cy="60" r="3" fill="var(--c-node-a)" />
     <text class="nodeText" x="90" y="65" text-anchor="middle">节点 A</text>
   </g>
   <g>
-    <rect x="190" y="40" width="120" height="44" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
-    <circle class="blink" cx="302" cy="62" r="3" fill="var(--c-green)" />
+    <rect x="190" y="40" width="120" height="44" rx="6" fill="var(--c-node)" stroke="var(--c-node-b)" stroke-width="1.2" />
+    <circle class="blink" cx="302" cy="62" r="3" fill="var(--c-node-b)" />
     <text class="nodeText" x="250" y="59" text-anchor="middle">节点 B</text>
     <text class="nodeSub" x="250" y="76" text-anchor="middle">副标</text>
   </g>
   <g>
-    <rect x="40" y="200" width="150" height="160" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
-    <circle class="blink" cx="182" cy="260" r="3" fill="var(--c-green)" />
+    <rect x="40" y="200" width="150" height="160" rx="6" fill="var(--c-node)" stroke="var(--c-node-c)" stroke-width="1.2" />
+    <circle class="blink" cx="182" cy="260" r="3" fill="var(--c-node-c)" />
     <text class="nodeText" x="115" y="242" text-anchor="middle">节点 C</text>
     <text class="nodeSub" x="115" y="261" text-anchor="middle">副标</text>
     <text class="nodeAccent" x="115" y="300" text-anchor="middle">子组件</text>
     <text class="nodeSub" x="115" y="318" text-anchor="middle">说明</text>
   </g>
   <g class="pulse">
-    <rect x="320" y="190" width="160" height="140" rx="6" fill="var(--c-core)" stroke="var(--c-green)" stroke-width="1.4" />
-    <circle cx="472" cy="260" r="3" fill="var(--c-green)" />
+    <rect x="320" y="190" width="160" height="140" rx="6" fill="var(--c-core)" stroke="var(--c-core-line)" stroke-width="1.4" />
+    <circle cx="472" cy="260" r="3" fill="var(--c-core-line)" />
     <text class="nodeText" x="400" y="255" text-anchor="middle">核心节点</text>
     <text class="nodeSub" x="400" y="273" text-anchor="middle">核心组件</text>
   </g>
   <g>
-    <rect x="570" y="70" width="140" height="100" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
-    <circle class="blink" cx="702" cy="120" r="3" fill="var(--c-green)" />
+    <rect x="570" y="70" width="140" height="100" rx="6" fill="var(--c-node)" stroke="var(--c-node-d)" stroke-width="1.2" />
+    <circle class="blink" cx="702" cy="120" r="3" fill="var(--c-node-d)" />
     <text class="nodeText" x="640" y="115" text-anchor="middle">节点 D</text>
     <text class="nodeSub" x="640" y="133" text-anchor="middle">副标</text>
   </g>
   <g>
-    <rect x="570" y="400" width="140" height="60" rx="6" fill="var(--c-node)" stroke="var(--c-node-line)" stroke-width="1.2" />
-    <circle class="blink" cx="702" cy="430" r="3" fill="var(--c-green)" />
+    <rect x="570" y="400" width="140" height="60" rx="6" fill="var(--c-node)" stroke="var(--c-node-e)" stroke-width="1.2" />
+    <circle class="blink" cx="702" cy="430" r="3" fill="var(--c-node-e)" />
     <text class="nodeText" x="640" y="425" text-anchor="middle">节点 E</text>
     <text class="nodeSub" x="640" y="443" text-anchor="middle">副标</text>
   </g>
 
-  <text class="labBlue" x="70" y="142" text-anchor="middle">去程 1</text>
-  <text class="labBlue" x="262" y="142" text-anchor="middle">去程 2</text>
+  <text class="labAuth" x="70" y="142" text-anchor="middle">去程 1</text>
+  <text class="labAuth" x="262" y="142" text-anchor="middle">去程 2</text>
   <text class="labMuted" x="152" y="172" text-anchor="middle">返回 3</text>
-  <text class="labTeal" x="255" y="228" text-anchor="middle">去程 4</text>
-  <text class="labTeal" x="525" y="142" text-anchor="middle">去程 5</text>
+  <text class="labDisc" x="255" y="228" text-anchor="middle">去程 4</text>
+  <text class="labDisc" x="525" y="142" text-anchor="middle">去程 5</text>
   <text class="labMuted" x="525" y="183" text-anchor="middle">返回 6</text>
   <text class="labMuted" x="255" y="265" text-anchor="middle">返回 7</text>
-  <text class="labGreen" x="255" y="288" text-anchor="middle">去程 8</text>
-  <text class="labGreen" x="525" y="205" text-anchor="middle">去程 9</text>
+  <text class="labInvoke" x="255" y="288" text-anchor="middle">去程 8</text>
+  <text class="labInvoke" x="525" y="205" text-anchor="middle">去程 9</text>
   <text class="labMuted" x="525" y="240" text-anchor="middle">返回 10</text>
-  <text class="labGreen" x="525" y="372" text-anchor="middle">去程 11</text>
+  <text class="labInvoke" x="525" y="372" text-anchor="middle">去程 11</text>
   <text class="labMuted" x="525" y="395" text-anchor="middle">返回 12</text>
   <text class="labMuted" x="255" y="323" text-anchor="middle">返回 13</text>
 
